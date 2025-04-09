@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ThouShell - Shakespearean Code BardBot</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        textarea { width: 100%; height: 150px; margin: 10px 0; }
+        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🎭 ThouShell Code Transformer</h1>
+    <p>Turn your boring Python code into Shakespearean poetry!</p>
+    
+    <textarea id="inputCode" placeholder="def hello(): return 'world'"></textarea>
+    <button onclick="transformCode()">Transform!</button>
+    
+    <h3>Shakespearean Version:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        async function transformCode() {
+            const code = document.getElementById('inputCode').value;
+            const output = document.getElementById('output');
+            
+            try {
+                const response = await fetch('/transform', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+                
+                const result = await response.json();
+                output.textContent = result.transformed_code || "No transformation returned";
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
